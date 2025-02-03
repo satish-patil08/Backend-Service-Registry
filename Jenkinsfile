@@ -9,6 +9,7 @@ pipeline {
     stage('Delete the old containers') {
       steps {
         sh '''sudo systemctl stop backend-service-registry
+         mkdir -p ~/backend/backend-users/
         sudo rm -rf ~/backend/backend-service-registry/*
         sudo cp -r target/*.jar ~/backend/backend-service-registry/
         sudo chown -R azureuser:azureuser ~/backend/backend-service-registry/
