@@ -3,23 +3,24 @@ pipeline {
   stages {
     stage('Generate Jar Files') {
       steps {
-        sh '''mvn clean install'''
+        sh 'mvn clean install'
       }
     }
     stage('Delete the old containers') {
       steps {
         sh '''
-         mkdir -p ~/backend/backend-users/
-        sudo systemctl stop backend-service-registry
-        sudo rm -rf ~/backend/backend-service-registry/*
-        sudo cp -r target/*.jar ~/backend/backend-service-registry/
-        sudo chown -R azureuser:azureuser ~/backend/backend-service-registry/
-        sudo mv ~/backend/backend-service-registry/*.jar ~/backend/backend-service-registry/app.jar'''
+          sudo systemctl stop backend-users
+          sudo mkdir -p /var/lib/jenkins/backend/backend-users/
+          sudo rm -rf /var/lib/jenkins/backend/backend-users/*
+          sudo cp -r target/service-registry-0.0.1-SNAPSHOT.jar /var/lib/jenkins/backend/backend-users/
+          sudo chown -R azureuser:azureuser /var/lib/jenkins/backend/backend-users/
+          sudo mv /var/lib/jenkins/backend/backend-users/service-registry-0.0.1-SNAPSHOT.jar /var/lib/jenkins/backend/backend-users/app.jar
+        '''
       }
     }
     stage('Run the updated dockers') {
       steps {
-        sh '''sudo systemctl start backend-service-registry'''
+        sh 'sudo systemctl start backend-users'
       }
     }
   }
