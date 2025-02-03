@@ -9,7 +9,7 @@ pipeline {
     stage('Delete the old containers') {
       steps {
         sh '''
-          sudo systemctl stop backend-users
+          sudo systemctl stop backend-users || true
           sudo mkdir -p /var/lib/jenkins/backend/backend-users/
           sudo rm -rf /var/lib/jenkins/backend/backend-users/*
           sudo cp -r target/service-registry-0.0.1-SNAPSHOT.jar /var/lib/jenkins/backend/backend-users/
