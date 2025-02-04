@@ -9,17 +9,17 @@ pipeline {
     stage('Delete the old containers') {
       steps {
         sh '''
-          sudo systemctl stop service-registry
-                    sudo rm -rf /var/lib/jenkins/backend/service-registry/*
-                    sudo cp -r target/*.jar /var/lib/jenkins/backend/service-registry/
-                    sudo chown -R azureuser:azureuser /var/lib/jenkins/backend/service-registry/
-                    sudo mv /var/lib/jenkins/backend/service-registry/*.jar /var/lib/jenkins/backend/service-registry/app.jar
+          sudo systemctl stop backend-service-registry
+          sudo rm -rf /var/lib/jenkins/backend/backend-service-registry/*
+          sudo cp -r target/*.jar /var/lib/jenkins/backend/backend-service-registry/
+          sudo chown -R azureuser:azureuser /var/lib/jenkins/backend/backend-service-registry/
+          sudo mv /var/lib/jenkins/backend/backend-service-registry/*.jar /var/lib/jenkins/backend/backend-service-registry/app.jar
         '''
       }
     }
     stage('Run the updated dockers') {
       steps {
-        sh 'sudo systemctl start service-registry'
+        sh 'sudo systemctl start backend-service-registry'
       }
     }
   }
